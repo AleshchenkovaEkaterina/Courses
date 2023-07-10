@@ -5,9 +5,9 @@ import model.money.Money;
 import model.money.MoneyInterface;
 
 public abstract class Score implements MoneyInterface {
-private Money balance;
-private Account owner;
-private Integer number;
+    Money balance;
+    private Account owner;
+    private Integer number;
 
     public Score(Money balance, Account owner, Integer number) {
         this.balance = balance;
@@ -38,38 +38,42 @@ private Integer number;
     public void setNumber(Integer number) {
         this.number = number;
     }
+
     @Override
-    public void addMoney(Money money){
+    public void addMoney(Money money) {
         double usdValueIn = money.getValue() *
                 money.getCurrency().getUsdCource();
         double usdValueThis = this.balance.getValue() *
                 this.balance.getCurrency().getUsdCource();
-        if(usdValueThis < usdValueIn) {
+        if (usdValueThis < usdValueIn) {
             System.out.println("You have no so much!");
             return;
         }
-        if(checkBefore()) {
+        if (checkBefore()) {
             this.balance.setValue((usdValueThis + usdValueIn) *
                     this.balance.getCurrency().getUsdCource());
         } else {
             System.out.println("No check!");
-            return;
         }
     }
 
     private boolean checkBefore() {
+        return false;
     }
 
     @Override
-    public Money getMoney(double balanceLess){
-        if(balanceLess > 30000) {
+    public Money getMoney(double balanceLess) {
+        if (balanceLess > 30000) {
             throw new IllegalArgumentException("Wrong balance less!");
         }
         this.balance.setValue(this.balance.getValue() - balanceLess);
         return this.balance;
     }
+
     @Override
-    public Money getMoneyWithoutLess(){
+    public Money getMoneyWithoutLess() {
         return this.balance;
     }
+
+    protected abstract boolean checkBefore(Money money);
 }

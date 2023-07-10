@@ -17,6 +17,17 @@ public class CurrentScore extends Score {
             throw new IllegalArgumentException("Wrong balance less!");
         }
         this.balance.setValue(this.balance.getValue() - balanceLess);
+        return null;
+    }
+
+    @Override
+    public Money getMoneyWithoutLess() {
+        return this.balance;
+    }
+
+    @Override
+    protected boolean checkBefore(Money money) {
+        return false;
     }
 
 }
